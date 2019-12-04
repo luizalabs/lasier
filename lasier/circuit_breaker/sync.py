@@ -1,12 +1,19 @@
 from functools import wraps
 
+from lasier.adapters.caches.base import CacheAdapterBase
+
 from .base import CircuitBreakerBase
 
 
 class CircuitBreaker(CircuitBreakerBase):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not isinstance(self.cache, CacheAdapterBase):
+            self.cache = CacheAdapterBase(self.cache)
+
     def is_circuit_open(self):
-        return self.cache.get(self.circuit_cache_key) or False
+        return self.cache.get(self.circuit_cache_key) == 1
 
     def total_failures(self):
         return self.cache.get(self.rule.failure_cache_key) or 0
