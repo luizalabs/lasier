@@ -101,4 +101,4 @@ class CircuitBreaker(CircuitBreakerBase):
         await self.cache.incr(self.rule.request_cache_key)
 
 
-acircuit_breaker = CircuitBreaker
+circuit_breaker = CircuitBreaker
