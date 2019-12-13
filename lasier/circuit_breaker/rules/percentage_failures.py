@@ -1,11 +1,11 @@
 import logging
 
-from .base import RuleBase
+from .base import BaseRule
 
 logger = logging.getLogger(__name__)
 
 
-class PercentageFailuresRule(RuleBase):
+class PercentageFailuresRule(BaseRule):
 
     def __init__(
         self,

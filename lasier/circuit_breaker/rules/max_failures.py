@@ -1,11 +1,11 @@
 import logging
 
-from .base import RuleBase
+from .base import BaseRule
 
 logger = logging.getLogger(__name__)
 
 
-class MaxFailuresRule(RuleBase):
+class MaxFailuresRule(BaseRule):
 
     def __init__(self, max_failures, failure_cache_key):
         super().__init__(failure_cache_key=failure_cache_key)
