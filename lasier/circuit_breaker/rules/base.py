@@ -4,7 +4,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class RuleBase(metaclass=abc.ABCMeta):
+class BaseRule(metaclass=abc.ABCMeta):
 
     def __init__(self, failure_cache_key, request_cache_key=None):
         self.failure_cache_key = failure_cache_key

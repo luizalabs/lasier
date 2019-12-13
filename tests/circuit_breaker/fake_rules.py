@@ -1,7 +1,7 @@
-from lasier.circuit_breaker.rules.base import RuleBase
+from lasier.circuit_breaker.rules.base import BaseRule
 
 
-class ShouldNotOpenRule(RuleBase):
+class ShouldNotOpenRule(BaseRule):
 
     def should_open_circuit(self, total_failures, total_requests):
         return False
@@ -10,7 +10,7 @@ class ShouldNotOpenRule(RuleBase):
         pass
 
 
-class ShouldOpenRule(RuleBase):
+class ShouldOpenRule(BaseRule):
 
     def should_open_circuit(self, total_failures, total_requests):
         return True
@@ -19,7 +19,7 @@ class ShouldOpenRule(RuleBase):
         pass
 
 
-class ShouldNotIncreaseFailureRule(RuleBase):
+class ShouldNotIncreaseFailureRule(BaseRule):
 
     def should_increase_failure_count(self):
         return False
@@ -31,7 +31,7 @@ class ShouldNotIncreaseFailureRule(RuleBase):
         pass
 
 
-class ShouldNotIncreaseRequestRule(RuleBase):
+class ShouldNotIncreaseRequestRule(BaseRule):
 
     def should_increase_request_count(self):
         return False

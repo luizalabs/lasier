@@ -1,6 +1,6 @@
 import pytest
 
-from lasier.circuit_breaker.rules import MaxFailuresRule, RuleBase
+from lasier.circuit_breaker.rules import BaseRule, MaxFailuresRule
 
 
 class TestMaxFailuresRule:
@@ -13,7 +13,7 @@ class TestMaxFailuresRule:
         )
 
     def test_max_failures_rule_should_return_rule_instance(self, rule):
-        assert isinstance(rule, RuleBase)
+        assert isinstance(rule, BaseRule)
 
     def test_should_not_open_circuit(self, rule):
         assert rule.should_open_circuit(
