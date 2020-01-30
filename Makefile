@@ -14,7 +14,7 @@ check:  ## Run static code checks
 	@flake8 .
 	@isort --check
 
-test: clean ## Run unit tests
+test: clean  ## Run unit tests
 	@py.test -x tests/
 
 coverage:  ## Run unit tests and generate code coverage report
@@ -23,5 +23,14 @@ coverage:  ## Run unit tests and generate code coverage report
 install:  ## Install development dependencies
 	@pip install -r requirements-dev.txt
 
-outdate:
-	@pip list --outdated --format=columns ## Show outdated dependencies
+outdate:  ## Show outdated dependencies
+	@pip list --outdated --format=columns
+
+release-patch:  ## Create a patch release
+	@bumpversion patch
+
+release-minor:  ## Create a minor release
+	@bumpversion minor
+
+release-major:  ## Create a major release
+	@bumpversion major
