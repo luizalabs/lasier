@@ -40,6 +40,7 @@ rule = MaxFailuresRule(
 | failure\_cache\_key | Cache key where the number of errors is incremented |
 
 #### PercentageFailuresRule
+Rule to open circuit based on a percentage of failures
 
 ```python
 from lasier.circuit_breaker.rules import PercentageFailuresRule
