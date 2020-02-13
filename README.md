@@ -16,6 +16,51 @@ pip install lasier
 ```
 
 ## Usage
+To use lasier circuit breaker you'll need a `rule` and a `cache` (the circuit state storage) instance
+
+### Rule
+A `Rule` is the mechanism that define where circuit will open or close.
+
+#### MaxFailuresRule
+Rule to open circuit based on maximum number of failures
+
+```python
+from lasier.circuit_breaker.rules import MaxFailuresRule
+
+rule = MaxFailuresRule(
+    max_failures=500,
+    failure_cache_key='my_cb'
+)
+```
+
+##### Arguments
+| Argument | Definition |
+|----------|------------|
+| max\_failures | Maximum number of errors |
+| failure\_cache\_key | Cache key where the number of errors is incremented |
+
+#### PercentageFailuresRule
+
+```python
+from lasier.circuit_breaker.rules import PercentageFailuresRule
+
+rule = PercentageFailuresRule(
+    max_failures_percentage=60,
+    failure_cache_key='my_cb',
+    min_accepted_requests=100,
+    request_cache_key='my_cb_request'
+)
+```
+
+##### Arguments
+| Argument | Definition |
+|----------|------------|
+| max\_failures\_percentage | Maximum percentage of errors |
+| failure\_cache\_key | Cache key where the number of errors is incremented |
+| min\_accepted\_requests | Minimum number of requests accepted to not open circuit breaker |
+| request\_cache\_key | Cache key where the number of requests is incremented |
+
+### Circuit Breaker
 TODO
 
 ## Circuit state storage
