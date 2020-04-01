@@ -94,11 +94,17 @@ class Storage:
 So you can use any cache/storage that respects that interface, f.ex the [django caches object](https://docs.djangoproject.com/en/3.0/topics/cache/)
 
 ### Adapters
-If you'll use Lasier with [redis-py] as cache, you can use `lasier.adapters.caches.redis.RedisAdapter`
+If you'll use Lasier with [redis-py](https://github.com/andymccurdy/redis-py) as cache, you can use `lasier.adapters.caches.redis.RedisAdapter`
 
 ```python
-from lasier.adapters.cache.redis import RedisAdapter
+from lasier.adapters.cache import RedisAdapter
 from redis import Redis
 
 cache = RedisAdapter(Redis(host='localhost', port=6479, db=0))
 ```
+
+#### Implemented Adapters
+| Lib | Adapter |
+| --- | --- |
+| redis-py | `lasier.adapters.caches.RedisAdapter`|
+| aiocache | `lasier.adapters.caches.AiocacheAdapter`|
