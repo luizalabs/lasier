@@ -1,9 +1,9 @@
 import pytest
+from aiocache import Cache
 from fakeredis import FakeStrictRedis
 
-from lasier.adapters.caches.redis import RedisAdapter
+from lasier.adapters.caches import AiocacheAdapter, RedisAdapter
 
-from .fake_cache import FakeAsyncCache
 from .fake_rules import (
     ShouldNotIncreaseFailureRule,
     ShouldNotIncreaseRequestRule,
@@ -21,7 +21,7 @@ def cache():
 
 @pytest.fixture
 async def async_cache():
-    fake_cache = FakeAsyncCache()
+    fake_cache = AiocacheAdapter(Cache(Cache.MEMORY))
     yield fake_cache
     await fake_cache.flushdb()
 
