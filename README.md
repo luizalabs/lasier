@@ -62,7 +62,53 @@ rule = PercentageFailuresRule(
 | request\_cache\_key | Cache key where the number of requests is incremented |
 
 ### Circuit Breaker
-TODO
+You can use the Lasier circuit breaker with a *context\_manager* f.ex:
+
+```python
+from lasier.circuit_breaker.sync import CircuitBreaker
+
+...
+
+def some_protected_func():
+    with CircuitBreaker(
+        rule=rule,
+        cache=cache,
+        failure_exception=ValueError,
+        catch_exceptions=(KeyError, TypeError)
+    ):
+        # some process
+```
+Or a _decorator_, f.ex:
+
+```python
+from lasier.circuit_breaker.asyncio import circuit_breaker
+
+...
+
+@circuit_breaker(
+    rule=rule,
+    cache=cache,
+    failure_exception=ValueError,
+    catch_exceptions=(KeyError, TypeError)
+)
+async def some_protected_func():
+    # some process
+```
+
+The **sync** and **async** implementations follow the same interface, so you only need to change the import path:
+
+* `lasier.circuit_breaker.sync`: for sync implementataion
+* `lasier.circuit_breaker.asyncio`: for async implementataion
+
+##### Arguments
+| Argument | Definition |
+|----------|------------|
+| rule | Instance of class [rule](https://github.com/luizalabs/lasier#rule). |
+| cache | Instance of the circuit breaker [state storage](https://github.com/luizalabs/lasier#circuit-state-storage). |
+| failure\_exception | Exception to be raised when it exceeds the maximum number of errors and when the circuit is open. |
+| failure\_timeout | This value is set on first error. It is used to validate the number of errors by time. |
+| circuit\_timeout | Time that the circuit will be open. |
+| catch\_exceptions | List of exceptions catched to increase the number of errors. |
 
 ## Circuit state storage
 Lasier works with a storage to register the current state of the circuit, number of failures, etc. That storage respects the follow interface:
