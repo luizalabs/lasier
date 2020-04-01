@@ -1,6 +1,8 @@
 # Lasier
 A sync/async circuit breaker implementation
 
+[![Build Status](https://travis-ci.org/luizalabs/lasier.svg?branch=master)](https://travis-ci.org/luizalabs/lasier)
+
 According to Nygard on your masterpiece book [Release It!](http://pragprog.com/titles/mnee/release-it):
 
 > [...] circuit breakers protect overeager gadget hounds from burning their houses down. The principle is the same: detect excess usage, fail first, and open the circuit. More abstractly, the circuit breaker exists to allow one subsystem (an electrical circuit) to fail (excessive current draw, possibly from a short circuit) without destroying the entire system (the house). Furthermore, once the danger has passed, the circuit breaker can be reset to restore full function to the system.
