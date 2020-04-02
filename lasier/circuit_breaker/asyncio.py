@@ -43,9 +43,12 @@ class CircuitBreaker(CircuitBreakerBase):
         if self._is_catchable_exception(exc_type):
             await self._increase_failure_count()
 
+            total_failures = await self.total_failures()
+            total_requests = await self.total_requests()
+
             if self.rule.should_open_circuit(
-                total_failures=self.total_failures,
-                total_requests=self.total_requests
+                total_failures=total_failures,
+                total_requests=total_requests
             ):
                 await self.open_circuit()
                 self._notify_max_failures_exceeded()
@@ -72,11 +75,13 @@ class CircuitBreaker(CircuitBreakerBase):
             0,
             self.failure_timeout
         )
-        total = await self.cache.incr(self.rule.failure_cache_key)
+
+        total_failures = await self.cache.incr(self.rule.failure_cache_key)
+        total_requests = await self.total_requests()
 
         self.rule.log_increase_failures(
-            total_failures=total,
-            total_requests=self.total_requests
+            total_failures=total_failures,
+            total_requests=total_requests
         )
 
     async def _increase_request_count(self):
