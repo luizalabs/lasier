@@ -9,10 +9,10 @@ class CircuitBreaker(CircuitBreakerBase):
     async def is_circuit_open(self):
         return await self.cache.get(self.circuit_cache_key) or False
 
-    async def total_failures(self):
+    async def get_total_failures(self):
         return await self.cache.get(self.rule.failure_cache_key) or 0
 
-    async def total_requests(self):
+    async def get_total_requests(self):
         return await self.cache.get(self.rule.request_cache_key) or 0
 
     async def open_circuit(self):
@@ -43,8 +43,8 @@ class CircuitBreaker(CircuitBreakerBase):
         if self._is_catchable_exception(exc_type):
             await self._increase_failure_count()
 
-            total_failures = await self.total_failures()
-            total_requests = await self.total_requests()
+            total_failures = await self.get_total_failures()
+            total_requests = await self.get_total_requests()
 
             if self.rule.should_open_circuit(
                 total_failures=total_failures,
@@ -77,7 +77,7 @@ class CircuitBreaker(CircuitBreakerBase):
         )
 
         total_failures = await self.cache.incr(self.rule.failure_cache_key)
-        total_requests = await self.total_requests()
+        total_requests = await self.get_total_requests()
 
         self.rule.log_increase_failures(
             total_failures=total_failures,

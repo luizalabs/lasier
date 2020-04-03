@@ -15,10 +15,10 @@ class CircuitBreaker(CircuitBreakerBase):
     def is_circuit_open(self):
         return self.cache.get(self.circuit_cache_key) == 1
 
-    def total_failures(self):
+    def get_total_failures(self):
         return self.cache.get(self.rule.failure_cache_key) or 0
 
-    def total_requests(self):
+    def get_total_requests(self):
         return self.cache.get(self.rule.request_cache_key) or 0
 
     def open_circuit(self):
@@ -44,8 +44,8 @@ class CircuitBreaker(CircuitBreakerBase):
             self._increase_failure_count()
 
             if self.rule.should_open_circuit(
-                total_failures=self.total_failures(),
-                total_requests=self.total_requests()
+                total_failures=self.get_total_failures(),
+                total_requests=self.get_total_requests()
             ):
                 self.open_circuit()
                 self._notify_max_failures_exceeded()
@@ -68,11 +68,11 @@ class CircuitBreaker(CircuitBreakerBase):
         # Between the cache.add and cache.incr, the cache MAY expire,
         # which will lead to a circuit that will eventually open
         self.cache.add(self.rule.failure_cache_key, 0, self.failure_timeout)
-        total = self.cache.incr(self.rule.failure_cache_key)
+        total_failures = self.cache.incr(self.rule.failure_cache_key)
 
         self.rule.log_increase_failures(
-            total_failures=total,
-            total_requests=self.total_requests()
+            total_failures=total_failures,
+            total_requests=self.get_total_requests()
         )
 
     def _increase_request_count(self):
