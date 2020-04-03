@@ -43,8 +43,10 @@ class CircuitBreaker(CircuitBreakerBase):
         if self._is_catchable_exception(exc_type):
             await self._increase_failure_count()
 
-            total_failures = await self.get_total_failures()
-            total_requests = await self.get_total_requests()
+            total_failures, total_requests = await asyncio.gather(
+                self.get_total_failures(),
+                self.get_total_requests()
+            )
 
             if self.rule.should_open_circuit(
                 total_failures=total_failures,
@@ -76,8 +78,10 @@ class CircuitBreaker(CircuitBreakerBase):
             self.failure_timeout
         )
 
-        total_failures = await self.cache.incr(self.rule.failure_cache_key)
-        total_requests = await self.get_total_requests()
+        total_failures, total_requests = await asyncio.gather(
+            self.cache.incr(self.rule.failure_cache_key),
+            self.get_total_requests()
+        )
 
         self.rule.log_increase_failures(
             total_failures=total_failures,
