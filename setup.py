@@ -25,6 +25,7 @@ setup(
     keywords='circuit breaker sync async',
     description=description,
     long_description=long_description,
+    long_description_content_type='text/markdown',
     download_url=download_url,
     packages=find_packages(exclude=['tests*']),
     classifiers=[

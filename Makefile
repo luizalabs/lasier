@@ -35,3 +35,7 @@ release-minor:  ## Create a minor release
 
 release-major:  ## Create a major release
 	@bumpversion major
+
+sdist:
+	@python setup.py sdist bdist_wheel
+	@twine upload dist/*
