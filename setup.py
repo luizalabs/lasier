@@ -17,7 +17,7 @@ download_url = 'https://github.com/luizalabs/lasier/tarball/master'
 
 setup(
     name='lasier',
-    version='0.0.0',
+    version='0.0.1',
     install_requires=[],
     url='https://github.com/luizalabs/lasier',
     author='Luiza Labs',
