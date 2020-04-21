@@ -13,6 +13,7 @@ clean: ## Clean cache and temporary files
 check:  ## Run static code checks
 	@flake8 .
 	@isort --check
+	@mypy lasier
 
 test: clean  ## Run unit tests
 	@py.test -x tests/
