@@ -7,21 +7,21 @@ from .base import CircuitBreakerBase
 
 class CircuitBreaker(CircuitBreakerBase):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if not isinstance(self.cache, CacheAdapterBase):
             self.cache = CacheAdapterBase(self.cache)
 
-    def is_circuit_open(self):
+    def is_circuit_open(self) -> bool:
         return self.cache.get(self.circuit_cache_key) == 1
 
-    def get_total_failures(self):
+    def get_total_failures(self) -> int:
         return self.cache.get(self.rule.failure_cache_key) or 0
 
-    def get_total_requests(self):
+    def get_total_requests(self) -> int:
         return self.cache.get(self.rule.request_cache_key) or 0
 
-    def open_circuit(self):
+    def open_circuit(self) -> None:
         self.cache.set(self.circuit_cache_key, 1, self.circuit_timeout)
 
         # Delete the cache key to mitigate multiple sequentials openings
@@ -58,7 +58,7 @@ class CircuitBreaker(CircuitBreakerBase):
                 return func(*args, **kwargs)
         return inner
 
-    def _increase_failure_count(self):
+    def _increase_failure_count(self) -> None:
         if (
             self.is_circuit_open() or
             not self.rule.should_increase_failure_count()
@@ -75,7 +75,7 @@ class CircuitBreaker(CircuitBreakerBase):
             total_requests=self.get_total_requests()
         )
 
-    def _increase_request_count(self):
+    def _increase_request_count(self) -> None:
         if (
             self.is_circuit_open() or
             not self.rule.should_increase_request_count()

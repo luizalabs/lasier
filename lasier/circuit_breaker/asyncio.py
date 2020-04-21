@@ -6,16 +6,16 @@ from .base import CircuitBreakerBase
 
 class CircuitBreaker(CircuitBreakerBase):
 
-    async def is_circuit_open(self):
+    async def is_circuit_open(self) -> bool:
         return await self.cache.get(self.circuit_cache_key) or False
 
-    async def get_total_failures(self):
+    async def get_total_failures(self) -> int:
         return await self.cache.get(self.rule.failure_cache_key) or 0
 
-    async def get_total_requests(self):
+    async def get_total_requests(self) -> int:
         return await self.cache.get(self.rule.request_cache_key) or 0
 
-    async def open_circuit(self):
+    async def open_circuit(self) -> None:
         await self.cache.set(
             self.circuit_cache_key,
             1,
@@ -63,7 +63,7 @@ class CircuitBreaker(CircuitBreakerBase):
                 return await func(*args, **kwargs)
         return inner
 
-    async def _increase_failure_count(self):
+    async def _increase_failure_count(self) -> None:
         if (
             await self.is_circuit_open() or
             not self.rule.should_increase_failure_count()
@@ -88,7 +88,7 @@ class CircuitBreaker(CircuitBreakerBase):
             total_requests=total_requests
         )
 
-    async def _increase_request_count(self):
+    async def _increase_request_count(self) -> None:
         if (
             await self.is_circuit_open() or
             not self.rule.should_increase_request_count()
