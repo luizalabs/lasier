@@ -118,22 +118,22 @@ Lasier works with a storage to register the current state of the circuit, number
 ```python
 class Storage:
 
-    def add(self, key=str, value=int, timeout=Optional[int]):
+    def add(self, key=str, value=int, timeout=Optional[int] = None) -> None:
         pass
 
-    def set(self, key=str, value=int, timeout=Optional[int]):
+    def set(self, key=str, value=int, timeout=Optional[int] = None) -> None:
         pass
 
-    def incr(self, key=str):
+    def incr(self, key=str) -> int:
         pass
 
     def get(self, key=str) -> int:
         pass
 
-    def delete(self, key=str):
+    def delete(self, key=str) -> None:
         pass
 
-    def flushdb(self):
+    def flushdb(self) -> None:
         pass
 ```
 
