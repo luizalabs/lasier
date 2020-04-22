@@ -2,7 +2,6 @@ from typing import Any, Optional
 
 
 class _CacheAdapterMixin:
-
     def __init__(self, cache: Any) -> None:
         self.cache = cache
 
@@ -13,7 +12,6 @@ class _CacheAdapterMixin:
 
 
 class CacheAdapterBase(_CacheAdapterMixin):
-
     def add(self, key: str, value: int, timeout: Optional[int] = None) -> None:
         self.cache.add(key, value, timeout)
 
@@ -34,7 +32,6 @@ class CacheAdapterBase(_CacheAdapterMixin):
 
 
 class AsyncCacheAdapterBase(_CacheAdapterMixin):
-
     async def add(
         self, key: str, value: int, timeout: Optional[int] = None
     ) -> None:

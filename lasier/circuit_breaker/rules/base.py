@@ -3,7 +3,6 @@ from typing import Optional
 
 
 class BaseRule(metaclass=abc.ABCMeta):
-
     def __init__(
         self, failure_cache_key: str, request_cache_key: Optional[str] = None
     ) -> None:

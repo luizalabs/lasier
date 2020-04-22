@@ -6,7 +6,6 @@ from .base import CircuitBreakerBase
 
 
 class CircuitBreaker(CircuitBreakerBase):
-
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if not isinstance(self.cache, CacheAdapterBase):
@@ -45,7 +44,7 @@ class CircuitBreaker(CircuitBreakerBase):
 
             if self.rule.should_open_circuit(
                 total_failures=self.get_total_failures(),
-                total_requests=self.get_total_requests()
+                total_requests=self.get_total_requests(),
             ):
                 self.open_circuit()
                 self._notify_max_failures_exceeded()
@@ -56,12 +55,13 @@ class CircuitBreaker(CircuitBreakerBase):
         def inner(*args, **kwargs):
             with self:
                 return func(*args, **kwargs)
+
         return inner
 
     def _increase_failure_count(self) -> None:
         if (
-            self.is_circuit_open() or
-            not self.rule.should_increase_failure_count()
+            self.is_circuit_open()
+            or not self.rule.should_increase_failure_count()
         ):
             return
 
@@ -72,13 +72,13 @@ class CircuitBreaker(CircuitBreakerBase):
 
         self.rule.log_increase_failures(
             total_failures=total_failures,
-            total_requests=self.get_total_requests()
+            total_requests=self.get_total_requests(),
         )
 
     def _increase_request_count(self) -> None:
         if (
-            self.is_circuit_open() or
-            not self.rule.should_increase_request_count()
+            self.is_circuit_open()
+            or not self.rule.should_increase_request_count()
         ):
             return
 

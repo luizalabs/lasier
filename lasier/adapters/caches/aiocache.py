@@ -4,7 +4,6 @@ from .base import AsyncCacheAdapterBase
 
 
 class Adapter(AsyncCacheAdapterBase):
-
     async def add(
         self, key: str, value: int, timeout: Optional[int] = None
     ) -> None:

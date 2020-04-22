@@ -14,6 +14,7 @@ check:  ## Run static code checks
 	@flake8 .
 	@isort --check
 	@mypy lasier
+	@black --skip-string-normalization --line-length 79 --check lasier
 
 test: clean  ## Run unit tests
 	@py.test -x tests/

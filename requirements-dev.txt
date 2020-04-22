@@ -1,4 +1,5 @@
 aiocache==0.11.1
+black==19.10b0
 bumpversion==0.5.3
 fakeredis==1.2.0
 flake8==3.7.9

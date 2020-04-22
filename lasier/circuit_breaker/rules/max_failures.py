@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 class MaxFailuresRule(BaseRule):
-
     def __init__(self, max_failures: int, failure_cache_key: str) -> None:
         super().__init__(failure_cache_key=failure_cache_key)
         self.max_failures = max_failures
