@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class CircuitBreakerBase:
-
     def __init__(
         self,
         rule: BaseRule,

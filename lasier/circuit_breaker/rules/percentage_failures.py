@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 class PercentageFailuresRule(BaseRule):
-
     def __init__(
         self,
         max_failures_percentage: int,
@@ -32,20 +31,18 @@ class PercentageFailuresRule(BaseRule):
         self, total_failures: int, total_requests: int
     ) -> bool:
         percentage_failures = self._get_percentage_failures(
-            total_failures=total_failures,
-            total_requests=total_requests
+            total_failures=total_failures, total_requests=total_requests
         )
         return (
-            total_requests > self.min_accepted_requests and
-            percentage_failures >= self.max_failures_percentage
+            total_requests > self.min_accepted_requests
+            and percentage_failures >= self.max_failures_percentage
         )
 
     def log_increase_failures(
         self, total_failures: int, total_requests: int
     ) -> None:
         percentage_failures = self._get_percentage_failures(
-            total_failures=total_failures,
-            total_requests=total_requests
+            total_failures=total_failures, total_requests=total_requests
         )
         logger.info(
             f'Increase failure for: {self.failure_cache_key} - '

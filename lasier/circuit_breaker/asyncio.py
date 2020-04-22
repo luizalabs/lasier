@@ -5,7 +5,6 @@ from .base import CircuitBreakerBase
 
 
 class CircuitBreaker(CircuitBreakerBase):
-
     async def is_circuit_open(self) -> bool:
         return await self.cache.get(self.circuit_cache_key) or False
 
@@ -16,18 +15,14 @@ class CircuitBreaker(CircuitBreakerBase):
         return await self.cache.get(self.rule.request_cache_key) or 0
 
     async def open_circuit(self) -> None:
-        await self.cache.set(
-            self.circuit_cache_key,
-            1,
-            self.circuit_timeout
-        )
+        await self.cache.set(self.circuit_cache_key, 1, self.circuit_timeout)
 
         # Delete the cache key to mitigate multiple sequentials openings
         # when a key is created accidentally without timeout (from an incr
         # operation)
         await asyncio.gather(
             self.cache.delete(self.rule.failure_cache_key),
-            self.cache.delete(self.rule.request_cache_key)
+            self.cache.delete(self.rule.request_cache_key),
         )
 
         self._notify_open_circuit()
@@ -44,13 +39,11 @@ class CircuitBreaker(CircuitBreakerBase):
             await self._increase_failure_count()
 
             total_failures, total_requests = await asyncio.gather(
-                self.get_total_failures(),
-                self.get_total_requests()
+                self.get_total_failures(), self.get_total_requests()
             )
 
             if self.rule.should_open_circuit(
-                total_failures=total_failures,
-                total_requests=total_requests
+                total_failures=total_failures, total_requests=total_requests
             ):
                 await self.open_circuit()
                 self._notify_max_failures_exceeded()
@@ -61,44 +54,40 @@ class CircuitBreaker(CircuitBreakerBase):
         async def inner(*args, **kwargs):
             async with self:
                 return await func(*args, **kwargs)
+
         return inner
 
     async def _increase_failure_count(self) -> None:
         if (
-            await self.is_circuit_open() or
-            not self.rule.should_increase_failure_count()
+            await self.is_circuit_open()
+            or not self.rule.should_increase_failure_count()
         ):
             return
 
         # Between the cache.add and cache.incr, the cache MAY expire,
         # which will lead to a circuit that will eventually open
         await self.cache.add(
-            self.rule.failure_cache_key,
-            0,
-            self.failure_timeout
+            self.rule.failure_cache_key, 0, self.failure_timeout
         )
 
         total_failures, total_requests = await asyncio.gather(
             self.cache.incr(self.rule.failure_cache_key),
-            self.get_total_requests()
+            self.get_total_requests(),
         )
 
         self.rule.log_increase_failures(
-            total_failures=total_failures,
-            total_requests=total_requests
+            total_failures=total_failures, total_requests=total_requests
         )
 
     async def _increase_request_count(self) -> None:
         if (
-            await self.is_circuit_open() or
-            not self.rule.should_increase_request_count()
+            await self.is_circuit_open()
+            or not self.rule.should_increase_request_count()
         ):
             return
 
         await self.cache.add(
-            self.rule.request_cache_key,
-            0,
-            self.failure_timeout
+            self.rule.request_cache_key, 0, self.failure_timeout
         )
         # To calculate the exact percentage, the cache of requests and the
         # cache of failures must expire at the same time.
