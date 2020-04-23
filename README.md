@@ -10,7 +10,7 @@ According to Nygard on your masterpiece book [Release It!](http://pragprog.com/t
 ## Requirements
 * Python >= 3.7
 
-## Instalation (WIP)
+## Instalation
 Using `pip`:
 
 ```
@@ -118,19 +118,19 @@ Lasier works with a storage to register the current state of the circuit, number
 ```python
 class Storage:
 
-    def add(self, key=str, value=int, timeout=Optional[int] = None) -> None:
+    def add(self, key: str, value: int, timeout: Optional[int] = None) -> None:
         pass
 
-    def set(self, key=str, value=int, timeout=Optional[int] = None) -> None:
+    def set(self, key: str, value: int, timeout: Optional[int] = None) -> None:
         pass
 
-    def incr(self, key=str) -> int:
+    def incr(self, key: str) -> int:
         pass
 
-    def get(self, key=str) -> int:
+    def get(self, key: str) -> int:
         pass
 
-    def delete(self, key=str) -> None:
+    def delete(self, key: str) -> None:
         pass
 
     def flushdb(self) -> None:
