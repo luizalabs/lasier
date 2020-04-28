@@ -145,7 +145,7 @@ So you can use any cache/storage that respects that interface, f.ex the [django 
 If you'll use Lasier with [redis-py](https://github.com/andymccurdy/redis-py) as cache, you can use `lasier.adapters.caches.redis.RedisAdapter`
 
 ```python
-from lasier.adapters.cache import RedisAdapter
+from lasier.adapters.caches import RedisAdapter
 from redis import Redis
 
 cache = RedisAdapter(Redis(host='localhost', port=6479, db=0))
