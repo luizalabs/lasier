@@ -5,6 +5,7 @@ from typing import Any, Iterable, Optional, Type
 from .rules.base import BaseRule
 
 logger = logging.getLogger(__name__)
+_ONE_MINUTE = 60
 
 
 class CircuitBreakerBase:
@@ -13,8 +14,8 @@ class CircuitBreakerBase:
         rule: BaseRule,
         cache: Any,
         failure_exception: Type[Exception],
-        failure_timeout: Optional[float] = None,
-        circuit_timeout: Optional[float] = None,
+        failure_timeout: Optional[int] = _ONE_MINUTE,
+        circuit_timeout: Optional[int] = _ONE_MINUTE,
         catch_exceptions: Optional[Iterable[Type[Exception]]] = None,
     ) -> None:
         self.rule = rule

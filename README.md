@@ -108,9 +108,11 @@ The **sync** and **async** implementations follow the same interface, so you onl
 | rule | Instance of class [rule](https://github.com/luizalabs/lasier#rule). |
 | cache | Instance of the circuit breaker [state storage](https://github.com/luizalabs/lasier#circuit-state-storage). |
 | failure\_exception | Exception to be raised when it exceeds the maximum number of errors and when the circuit is open. |
-| failure\_timeout | This value is set on first error. It is used to validate the number of errors by time (seconds) |
-| circuit\_timeout | Time in seconds that the circuit will be open. |
+| failure\_timeout | This value is set on first error. It is used to validate the number of errors by time. (seconds, default 60) |
+| circuit\_timeout | Time that the circuit will be open. (seconds, default 60) |
 | catch\_exceptions | List of exceptions catched to increase the number of errors. |
+
+> **WARNING**: The args `failure_timeout` and `circuit_timeout` will be used on state storage commands so if you'll use libs that expects milliseconds instead of seconds on `timeout` arguments maybe you'll get yourself in trouble
 
 ## Circuit state storage
 Lasier works with a storage to register the current state of the circuit, number of failures, etc. That storage respects the follow interface:
