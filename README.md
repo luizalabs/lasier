@@ -120,16 +120,19 @@ Lasier works with a storage to register the current state of the circuit, number
 ```python
 class Storage:
 
-    def add(self, key: str, value: int, timeout: Optional[int] = None) -> None:
+    def add(self, key: str, value: int, timeout: Optional[Union[int, float]] = None) -> None:
         pass
 
-    def set(self, key: str, value: int, timeout: Optional[int] = None) -> None:
+    def set(self, key: str, value: int, timeout: Optional[Union[int, float]] = None) -> None:
         pass
 
     def incr(self, key: str) -> int:
         pass
 
     def get(self, key: str) -> int:
+        pass
+
+    def expire(key: str, timeout: Optional[Union[int, float]] = None) -> None:
         pass
 
     def delete(self, key: str) -> None:
@@ -141,7 +144,7 @@ class Storage:
 
 > For `async` circuit breaker, lasier works with that same interface however with async syntax, f.ex: `async def set(self, key=str, value=int, timeout=Optional[int])`
 
-So you can use any cache/storage that respects that interface, f.ex the [django caches object](https://docs.djangoproject.com/en/3.0/topics/cache/)
+So you can use any cache/storage that respects that interface.
 
 ### Adapters
 If you'll use Lasier with [redis-py](https://github.com/andymccurdy/redis-py) as cache, you can use `lasier.adapters.caches.redis.RedisAdapter`
@@ -157,4 +160,5 @@ cache = RedisAdapter(Redis(host='localhost', port=6479, db=0))
 | Lib | Adapter |
 | --- | --- |
 | redis-py | `lasier.adapters.caches.RedisAdapter`|
+| django-cache | `lasier.adapters.caches.DjangoAdapter`|
 | aiocache | `lasier.adapters.caches.AiocacheAdapter`|
