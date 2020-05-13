@@ -1,4 +1,5 @@
 from functools import wraps
+from typing import Optional, Union
 
 from lasier.adapters.caches.base import CacheAdapterBase
 
@@ -68,7 +69,9 @@ class CircuitBreaker(CircuitBreakerBase):
         # Between the cache.add and cache.incr, the cache MAY expire,
         # which will lead to a circuit that will eventually open
         self.cache.add(self.rule.failure_cache_key, 0, self.failure_timeout)
-        total_failures = self.cache.incr(self.rule.failure_cache_key)
+        total_failures = self._incr(
+            self.rule.failure_cache_key, self.failure_timeout
+        )
 
         self.rule.log_increase_failures(
             total_failures=total_failures,
@@ -90,7 +93,15 @@ class CircuitBreaker(CircuitBreakerBase):
                 self.rule.failure_cache_key, 0, self.failure_timeout
             )
 
-        self.cache.incr(self.rule.request_cache_key)
+        self._incr(
+            self.rule.request_cache_key, self.failure_timeout  # type: ignore
+        )
+
+    def _incr(self, key: str, timeout: Optional[Union[int, float]]) -> int:
+        value = self.cache.incr(key)
+        if value == 1:
+            self.cache.expire(key, timeout)
+        return value
 
 
 circuit_breaker = CircuitBreaker

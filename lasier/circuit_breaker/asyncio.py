@@ -1,5 +1,6 @@
 import asyncio
 from functools import wraps
+from typing import Optional, Union
 
 from .base import CircuitBreakerBase
 
@@ -71,7 +72,7 @@ class CircuitBreaker(CircuitBreakerBase):
         )
 
         total_failures, total_requests = await asyncio.gather(
-            self.cache.incr(self.rule.failure_cache_key),
+            self._incr(self.rule.failure_cache_key, self.failure_timeout),
             self.get_total_requests(),
         )
 
@@ -96,7 +97,17 @@ class CircuitBreaker(CircuitBreakerBase):
                 self.rule.failure_cache_key, 0, self.failure_timeout
             )
 
-        await self.cache.incr(self.rule.request_cache_key)
+        await self._incr(
+            self.rule.request_cache_key, self.failure_timeout  # type: ignore
+        )
+
+    async def _incr(
+        self, key: str, timeout: Optional[Union[int, float]]
+    ) -> int:
+        value = await self.cache.incr(key)
+        if value == 1:
+            await self.cache.expire(key, timeout)
+        return value
 
 
 circuit_breaker = CircuitBreaker

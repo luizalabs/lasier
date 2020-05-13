@@ -308,3 +308,23 @@ class TestCircuitBreaker:
             success_function()
 
         assert cache.get(failure_cache_key) == 0
+
+    def test_should_call_expire_if_incr_returns_one(
+        self,
+        cache,
+        should_not_open_rule
+    ):
+        mock_expire = mock.MagicMock()
+        with mock.patch.object(cache, 'expire', mock_expire):
+            for _ in range(5):
+                with pytest.raises(ValueError):
+                    with CircuitBreaker(
+                        rule=should_not_open_rule,
+                        cache=cache,
+                        failure_exception=MyException,
+                        catch_exceptions=(ValueError,),
+                    ):
+                        fail_function()
+
+        # for request and fail count
+        assert mock_expire.call_count == 2
