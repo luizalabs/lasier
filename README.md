@@ -118,12 +118,15 @@ The **sync** and **async** implementations follow the same interface, so you onl
 Lasier works with a storage to register the current state of the circuit, number of failures, etc. That storage respects the follow interface:
 
 ```python
+from lasier.types import Timeout  # Timeout = Optional[Union[int, float]]
+
+
 class Storage:
 
-    def add(self, key: str, value: int, timeout: Optional[Union[int, float]] = None) -> None:
+    def add(self, key: str, value: int, timeout: Timeout = None) -> None:
         pass
 
-    def set(self, key: str, value: int, timeout: Optional[Union[int, float]] = None) -> None:
+    def set(self, key: str, value: int, timeout: Timeout = None) -> None:
         pass
 
     def incr(self, key: str) -> int:
@@ -132,7 +135,7 @@ class Storage:
     def get(self, key: str) -> int:
         pass
 
-    def expire(key: str, timeout: Optional[Union[int, float]] = None) -> None:
+    def expire(key: str, timeout: Timeout = None) -> None:
         pass
 
     def delete(self, key: str) -> None:

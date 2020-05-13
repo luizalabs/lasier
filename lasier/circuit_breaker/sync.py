@@ -1,7 +1,7 @@
 from functools import wraps
-from typing import Optional, Union
 
 from lasier.adapters.caches.base import CacheAdapterBase
+from lasier.types import Timeout
 
 from .base import CircuitBreakerBase
 
@@ -92,7 +92,7 @@ class CircuitBreaker(CircuitBreakerBase):
                 self.rule.failure_cache_key, 0, self.failure_timeout
             )
 
-    def _incr(self, key: str, timeout: Optional[Union[int, float]]) -> int:
+    def _incr(self, key: str, timeout: Timeout) -> int:
         value = self.cache.incr(key)
         if value == 1:
             self.cache.expire(key, timeout)
