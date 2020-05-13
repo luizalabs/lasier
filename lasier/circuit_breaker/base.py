@@ -1,6 +1,8 @@
 import inspect
 import logging
-from typing import Any, Iterable, Optional, Type, Union
+from typing import Any, Iterable, Optional, Type
+
+from lasier.types import Timeout
 
 from .rules.base import BaseRule
 
@@ -14,8 +16,8 @@ class CircuitBreakerBase:
         rule: BaseRule,
         cache: Any,
         failure_exception: Type[Exception],
-        failure_timeout: Optional[Union[int, float]] = _ONE_MINUTE,
-        circuit_timeout: Optional[Union[int, float]] = _ONE_MINUTE,
+        failure_timeout: Timeout = _ONE_MINUTE,
+        circuit_timeout: Timeout = _ONE_MINUTE,
         catch_exceptions: Optional[Iterable[Type[Exception]]] = None,
     ) -> None:
         self.rule = rule

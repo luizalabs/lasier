@@ -1,4 +1,6 @@
-from typing import Any, Optional, Union
+from typing import Any, Optional
+
+from lasier.types import Timeout
 
 
 class _CacheAdapterMixin:
@@ -12,14 +14,10 @@ class _CacheAdapterMixin:
 
 
 class CacheAdapterBase(_CacheAdapterMixin):
-    def add(
-        self, key: str, value: int, timeout: Optional[Union[int, float]] = None
-    ) -> None:
+    def add(self, key: str, value: int, timeout: Timeout = None) -> None:
         self.cache.add(key, value, timeout)
 
-    def set(
-        self, key: str, value: int, timeout: Optional[Union[int, float]] = None
-    ) -> None:
+    def set(self, key: str, value: int, timeout: Timeout = None) -> None:
         self.cache.set(key, value, timeout)
 
     def incr(self, key: str) -> int:
@@ -28,7 +26,7 @@ class CacheAdapterBase(_CacheAdapterMixin):
     def get(self, key: str) -> Optional[int]:
         return self._convert_to_int(self.cache.get(key))
 
-    def expire(self, key: str, timeout: Optional[Union[int, float]]) -> None:
+    def expire(self, key: str, timeout: Timeout) -> None:
         self.cache.expire(key, timeout)
 
     def delete(self, key: str) -> None:
@@ -39,14 +37,10 @@ class CacheAdapterBase(_CacheAdapterMixin):
 
 
 class AsyncCacheAdapterBase(_CacheAdapterMixin):
-    async def add(
-        self, key: str, value: int, timeout: Optional[Union[int, float]] = None
-    ) -> None:
+    async def add(self, key: str, value: int, timeout: Timeout = None) -> None:
         await self.cache.add(key, value, timeout)
 
-    async def set(
-        self, key: str, value: int, timeout: Optional[Union[int, float]] = None
-    ) -> None:
+    async def set(self, key: str, value: int, timeout: Timeout = None) -> None:
         await self.cache.set(key, value, timeout)
 
     async def incr(self, key: str) -> int:
@@ -55,9 +49,7 @@ class AsyncCacheAdapterBase(_CacheAdapterMixin):
     async def get(self, key: str) -> Optional[int]:
         return self._convert_to_int(await self.cache.get(key))
 
-    async def expire(
-        self, key: str, timeout: Optional[Union[int, float]]
-    ) -> None:
+    async def expire(self, key: str, timeout: Timeout) -> None:
         await self.cache.expire(key, timeout)
 
     async def delete(self, key: str) -> None:
