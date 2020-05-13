@@ -322,3 +322,27 @@ class TestCircuitBreaker:
             await success_function()
 
         assert await async_cache.get(failure_cache_key) == 0
+
+    async def test_should_call_expire_if_incr_returns_one(
+        self,
+        async_cache,
+        should_not_open_rule
+    ):
+        future = asyncio.Future()
+        future.set_result(None)
+
+        with mock.patch.object(
+            async_cache, 'expire', return_value=future, autospec=True
+        ) as mock_expire:
+            for _ in range(5):
+                with pytest.raises(ValueError):
+                    async with CircuitBreaker(
+                        rule=should_not_open_rule,
+                        cache=async_cache,
+                        failure_exception=MyException,
+                        catch_exceptions=(ValueError,),
+                    ):
+                        await fail_function()
+
+        # for request and fail count
+        assert mock_expire.call_count == 2
