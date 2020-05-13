@@ -66,9 +66,6 @@ class CircuitBreaker(CircuitBreakerBase):
         ):
             return
 
-        # Between the cache.add and cache.incr, the cache MAY expire,
-        # which will lead to a circuit that will eventually open
-        self.cache.add(self.rule.failure_cache_key, 0, self.failure_timeout)
         total_failures = self._incr(
             self.rule.failure_cache_key, self.failure_timeout
         )
@@ -85,17 +82,15 @@ class CircuitBreaker(CircuitBreakerBase):
         ):
             return
 
-        self.cache.add(self.rule.request_cache_key, 0, self.failure_timeout)
+        self._incr(
+            self.rule.request_cache_key, self.failure_timeout  # type: ignore
+        )
         # To calculate the exact percentage, the cache of requests and the
         # cache of failures must expire at the same time.
         if self.rule.should_increase_failure_count():
             self.cache.add(
                 self.rule.failure_cache_key, 0, self.failure_timeout
             )
-
-        self._incr(
-            self.rule.request_cache_key, self.failure_timeout  # type: ignore
-        )
 
     def _incr(self, key: str, timeout: Optional[Union[int, float]]) -> int:
         value = self.cache.incr(key)

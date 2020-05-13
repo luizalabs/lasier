@@ -65,12 +65,6 @@ class CircuitBreaker(CircuitBreakerBase):
         ):
             return
 
-        # Between the cache.add and cache.incr, the cache MAY expire,
-        # which will lead to a circuit that will eventually open
-        await self.cache.add(
-            self.rule.failure_cache_key, 0, self.failure_timeout
-        )
-
         total_failures, total_requests = await asyncio.gather(
             self._incr(self.rule.failure_cache_key, self.failure_timeout),
             self.get_total_requests(),
@@ -87,8 +81,8 @@ class CircuitBreaker(CircuitBreakerBase):
         ):
             return
 
-        await self.cache.add(
-            self.rule.request_cache_key, 0, self.failure_timeout
+        await self._incr(
+            self.rule.request_cache_key, self.failure_timeout  # type: ignore
         )
         # To calculate the exact percentage, the cache of requests and the
         # cache of failures must expire at the same time.
@@ -96,10 +90,6 @@ class CircuitBreaker(CircuitBreakerBase):
             await self.cache.add(
                 self.rule.failure_cache_key, 0, self.failure_timeout
             )
-
-        await self._incr(
-            self.rule.request_cache_key, self.failure_timeout  # type: ignore
-        )
 
     async def _incr(
         self, key: str, timeout: Optional[Union[int, float]]
