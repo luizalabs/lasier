@@ -19,6 +19,9 @@ check:  ## Run static code checks
 test: clean  ## Run unit tests
 	@py.test -x tests/
 
+test-matching:
+	@py.test -rxs --pdb -k$(Q) tests/
+
 coverage:  ## Run unit tests and generate code coverage report
 	@py.test -x --cov lasier/ --cov-report=xml --cov-report=term-missing tests/
 
