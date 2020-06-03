@@ -14,6 +14,9 @@ class CircuitBreaker(CircuitBreakerBase):
         return await self.cache.get(self.rule.failure_cache_key) or 0
 
     async def get_total_requests(self) -> int:
+        if not self.rule.request_cache_key:
+            return 0
+
         return await self.cache.get(self.rule.request_cache_key) or 0
 
     async def open_circuit(self) -> None:
@@ -22,10 +25,16 @@ class CircuitBreaker(CircuitBreakerBase):
         # Delete the cache key to mitigate multiple sequentials openings
         # when a key is created accidentally without timeout (from an incr
         # operation)
-        await asyncio.gather(
-            self.cache.delete(self.rule.failure_cache_key),
-            self.cache.delete(self.rule.request_cache_key),
-        )
+
+        if self.rule.should_increase_request_count():
+
+            await asyncio.gather(
+                self.cache.delete(self.rule.failure_cache_key),
+                self.cache.delete(self.rule.request_cache_key),
+            )
+
+        else:
+            await self.cache.delete(self.rule.failure_cache_key)
 
         self._notify_open_circuit()
 
