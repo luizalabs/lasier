@@ -323,6 +323,26 @@ class TestCircuitBreaker:
 
         assert await async_cache.get(failure_cache_key) == 0
 
+    async def test_should_create_failure_cache_when_no_request_cache_key(
+        self,
+        async_cache,
+        should_not_open_rule_without_request_cache_key,
+        failure_cache_key,
+        request_cache_key,
+    ):
+        assert await async_cache.get(failure_cache_key) is None
+
+        with pytest.raises(ValueError):
+            async with CircuitBreaker(
+                rule=should_not_open_rule_without_request_cache_key,
+                cache=async_cache,
+                failure_exception=MyException,
+                catch_exceptions=(ValueError,),
+            ):
+                await fail_function()
+
+        assert await async_cache.get(failure_cache_key) == 1
+
     async def test_should_call_expire_if_incr_returns_one(
         self,
         async_cache,

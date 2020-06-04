@@ -43,6 +43,13 @@ def should_open_rule(failure_cache_key, request_cache_key):
 
 
 @pytest.fixture
+def should_not_open_rule_without_request_cache_key(failure_cache_key):
+    return ShouldNotOpenRule(
+        failure_cache_key=failure_cache_key,
+    )
+
+
+@pytest.fixture
 def should_not_increase_request_rule(failure_cache_key, request_cache_key):
     return ShouldNotIncreaseRequestRule(
         failure_cache_key=failure_cache_key,

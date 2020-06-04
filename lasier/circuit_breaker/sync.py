@@ -19,6 +19,9 @@ class CircuitBreaker(CircuitBreakerBase):
         return self.cache.get(self.rule.failure_cache_key) or 0
 
     def get_total_requests(self) -> int:
+        if self.rule.request_cache_key is None:
+            return 0
+
         return self.cache.get(self.rule.request_cache_key) or 0
 
     def open_circuit(self) -> None:
@@ -28,7 +31,9 @@ class CircuitBreaker(CircuitBreakerBase):
         # when a key is created accidentally without timeout (from an incr
         # operation)
         self.cache.delete(self.rule.failure_cache_key)
-        self.cache.delete(self.rule.request_cache_key)
+
+        if self.rule.request_cache_key is not None:
+            self.cache.delete(self.rule.request_cache_key)
 
         self._notify_open_circuit()
 

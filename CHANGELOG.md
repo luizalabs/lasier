@@ -1,5 +1,11 @@
 # Changelog
 
+## [NEXT_RELEASE]
+
+### Changes
+
+* Ignore request cache key operations when it is not configured
+
 ## [0.1.0] - 2020-05-15
 ### Changes
 * Args `failure_timeout` and `circuit_timeout` of CircuitBreaker to have a default value
