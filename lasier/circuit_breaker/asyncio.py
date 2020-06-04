@@ -26,8 +26,7 @@ class CircuitBreaker(CircuitBreakerBase):
         # when a key is created accidentally without timeout (from an incr
         # operation)
 
-        if self.rule.should_increase_request_count():
-
+        if self.rule.request_cache_key is not None:
             await asyncio.gather(
                 self.cache.delete(self.rule.failure_cache_key),
                 self.cache.delete(self.rule.request_cache_key),

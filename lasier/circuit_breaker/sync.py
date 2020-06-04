@@ -19,7 +19,7 @@ class CircuitBreaker(CircuitBreakerBase):
         return self.cache.get(self.rule.failure_cache_key) or 0
 
     def get_total_requests(self) -> int:
-        if not self.rule.should_increase_request_count():
+        if self.rule.request_cache_key is None:
             return 0
 
         return self.cache.get(self.rule.request_cache_key) or 0
@@ -32,7 +32,7 @@ class CircuitBreaker(CircuitBreakerBase):
         # operation)
         self.cache.delete(self.rule.failure_cache_key)
 
-        if self.rule.should_increase_request_count():
+        if self.rule.request_cache_key is not None:
             self.cache.delete(self.rule.request_cache_key)
 
         self._notify_open_circuit()
