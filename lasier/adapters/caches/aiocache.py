@@ -11,7 +11,14 @@ class Adapter(AsyncCacheAdapterBase):
             return
 
     async def incr(self, key: str) -> int:
-        return await self.cache.increment(key)
+        """
+        According to aiocache docs:
+        Value of the key once incremented. -1 if key is not found.
+        """
+        value = await self.cache.increment(key)
+        if value == -1:
+            return 1
+        return value
 
     async def flushdb(self) -> None:
         await self.cache.clear()

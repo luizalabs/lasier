@@ -1,7 +1,10 @@
 # Changelog
 
-## [0.1.1] - 2020-06-04
+## [NEXT_RELEASE]
+### Fixed
+* Returns `1` instead of `-1` on `incr` method of Aiocache adapter if key doesn't exists
 
+## [0.1.1] - 2020-06-04
 ### Changes
 
 * Ignore request cache key operations when it is not configured
