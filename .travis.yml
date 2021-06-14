@@ -1,19 +1,19 @@
-dist: xenial
 language: python
 
 python:
-- '3.7'
-- '3.8'
+  - "3.7"
+  - "3.8"
+  - "3.9"
 
 cache:
   directories:
-  - "$HOME/.cache/pip"
+    - "$HOME/.cache/pip"
 
 install:
-- make install
+  - make install
 
 script:
-- make check coverage
+  - make check coverage
 
 deploy:
   provider: pypi
