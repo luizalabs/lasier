@@ -1,0 +1,41 @@
+name: Python package
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9"]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        make install
+
+    - name: Run lint
+      run: |
+        make check
+    - name: Run tests
+      run: |
+        make coverage
+    - name: Publish a Python distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      with:
+        user: ${{ secrets.pypi_user }}
+        password: ${{ secrets.pypi_password }}
