@@ -1,7 +1,7 @@
 # Lasier
 A sync/async circuit breaker implementation
 
-[![Build Status](https://travis-ci.org/luizalabs/lasier.svg?branch=master)](https://travis-ci.org/luizalabs/lasier)
+[![Build Status](https://github.com/luizalabs/lasier/actions/workflows/main.yaml/badge.svg)](https://github.com/luizalabs/lasier/actions)
 
 According to Nygard on your masterpiece book [Release It!](http://pragprog.com/titles/mnee/release-it):
 
