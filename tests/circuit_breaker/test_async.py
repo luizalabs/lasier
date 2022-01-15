@@ -2,6 +2,7 @@ import asyncio
 from unittest import mock
 
 import pytest
+import pytest_asyncio
 
 from lasier.circuit_breaker.asyncio import CircuitBreaker, circuit_breaker
 
@@ -19,11 +20,11 @@ async def fail_function():
 @pytest.mark.asyncio
 class TestCircuitBreaker:
 
-    @pytest.fixture
+    @pytest_asyncio.fixture
     def failure_cache_key(self):
         return 'fail'
 
-    @pytest.fixture
+    @pytest_asyncio.fixture
     def request_cache_key(self):
         return 'request'
 

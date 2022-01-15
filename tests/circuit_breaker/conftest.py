@@ -1,4 +1,5 @@
 import pytest
+import pytest_asyncio
 from aiocache import Cache
 from fakeredis import FakeStrictRedis
 
@@ -19,7 +20,7 @@ def cache():
     fake_cache.flushdb()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def async_cache():
     fake_cache = AiocacheAdapter(Cache(Cache.MEMORY))
     yield fake_cache
