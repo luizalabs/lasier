@@ -8,7 +8,7 @@ from .fake_rules import (
     ShouldNotIncreaseFailureRule,
     ShouldNotIncreaseRequestRule,
     ShouldNotOpenRule,
-    ShouldOpenRule
+    ShouldOpenRule,
 )
 
 
