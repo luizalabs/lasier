@@ -11,35 +11,31 @@ clean: ## Clean cache and temporary files
 	@rm -f .coverage
 
 check:  ## Run static code checks
-	@flake8 .
-	@isort --check
-	@mypy lasier
-	@black --skip-string-normalization --line-length 79 --check lasier
+	@poetry run flake8 .
+	@poetry run isort . --check
+	@poetry run mypy lasier
+	@poetry run black --check lasier
 
 test: clean  ## Run unit tests
-	@py.test -x tests/
+	@poetry run pytest -x tests/
 
 test-matching:
-	@py.test -rxs --pdb -k$(Q) tests/
+	@poetry run pytest -rxs --pdb -k$(Q) tests/
 
 coverage:  ## Run unit tests and generate code coverage report
-	@py.test -x --cov lasier/ --cov-report=xml --cov-report=term-missing tests/
+	@poetry run pytest -x --cov lasier/ --cov-report=xml --cov-report=term-missing tests/
 
 install:  ## Install development dependencies
-	@pip install -r requirements-dev.txt
+	@poetry install
 
 outdate:  ## Show outdated dependencies
-	@pip list --outdated --format=columns
+	@poetry show --outdated
 
 release-patch:  ## Create a patch release
-	@bumpversion patch
+	@poetry run bumpversion patch
 
 release-minor:  ## Create a minor release
-	@bumpversion minor
+	@poetry run bumpversion minor
 
 release-major:  ## Create a major release
-	@bumpversion major
-
-sdist:
-	@python setup.py sdist bdist_wheel
-	@twine upload dist/*
+	@poetry run bumpversion major
