@@ -51,6 +51,6 @@ jobs:
     - name: Publish a Python distribution to PyPI
       run: poetry publish -n -u "$USERNAME" -p "$PASSWORD"
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-      with:
-        user: ${{ secrets.pypi_user }}
-        password: ${{ secrets.pypi_password }}
+      env:
+        USERNAME: ${{ secrets.pypi_user }}
+        PASSWORD: ${{ secrets.pypi_password }}
