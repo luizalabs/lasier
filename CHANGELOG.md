@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.2.0] - 2022-03-17
+
+### Changes
+* Migrate to poetry
+* Update dependencies
+
+### Added
+* Python 3.10 support
+
 ## [0.1.1] - 2020-06-04
 
 ### Changes
