@@ -34,6 +34,9 @@ jobs:
       run: make install
       if: steps.cache.outputs.cache-hit != 'true'
 
+    - name: build
+      run: poetry build
+
     - name: Publish a Python distribution to PyPI
       run: poetry publish -n -u "$USERNAME" -p "$PASSWORD"
       env:
