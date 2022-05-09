@@ -126,7 +126,7 @@ dev = ["tox", "bump2version (<1)", "sphinx (<2)", "importlib-metadata (<3)", "im
 
 [[package]]
 name = "fakeredis"
-version = "1.7.1"
+version = "1.7.4"
 description = "Fake implementation of redis API for testing purposes."
 category = "dev"
 optional = false
@@ -134,7 +134,7 @@ python-versions = ">=3.5"
 
 [package.dependencies]
 packaging = "*"
-redis = "<4.2.0"
+redis = "<=4.2.2"
 six = ">=1.12"
 sortedcontainers = "*"
 
@@ -442,7 +442,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "583a8d48e21fa127b7ec8f014114ced5bc81818f59d2efcfebae492aaff73914"
+content-hash = "ac5d7fbcee5a6e3263dac1019519d5385d2038f89de6f310346fe2d287c5ca0c"
 
 [metadata.files]
 aiocache = [
@@ -546,8 +546,8 @@ deprecated = [
     {file = "Deprecated-1.2.13.tar.gz", hash = "sha256:43ac5335da90c31c24ba028af536a91d41d53f9e6901ddb021bcc572ce44e38d"},
 ]
 fakeredis = [
-    {file = "fakeredis-1.7.1-py3-none-any.whl", hash = "sha256:be3668e50f6b57d5fc4abfd27f9f655bed07a2c5aecfc8b15d0aad59f997c1ba"},
-    {file = "fakeredis-1.7.1.tar.gz", hash = "sha256:7c2c4ba1b42e0a75337c54b777bf0671056b4569650e3ff927e4b9b385afc8ec"},
+    {file = "fakeredis-1.7.4-py3-none-any.whl", hash = "sha256:cc033ebf9af9f42bba6aa538a3e1a9f1732686b8b7e9ef50c7a44955bbc2aff8"},
+    {file = "fakeredis-1.7.4.tar.gz", hash = "sha256:69697ffeeb09939073605eeac97f524bccabae04265757a575c7fc923087aa65"},
 ]
 flake8 = [
     {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
