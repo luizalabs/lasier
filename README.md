@@ -160,8 +160,9 @@ cache = RedisAdapter(Redis(host='localhost', port=6479, db=0))
 ```
 
 #### Implemented Adapters
-| Lib | Adapter |
-| --- | --- |
-| redis-py | `lasier.adapters.caches.RedisAdapter`|
-| django-cache | `lasier.adapters.caches.DjangoAdapter`|
-| aiocache | `lasier.adapters.caches.AiocacheAdapter`|
+| Lib                | Adapter                                       |
+|--------------------| --------------------------------------------- |
+| redis-py           | `lasier.adapters.caches.RedisAdapter`         |
+| django-cache       | `lasier.adapters.caches.DjangoAdapter`        |
+| django-cache-async | `lasier.adapters.caches.DjangoAsyncAdapter`   |
+| aiocache           | `lasier.adapters.caches.AiocacheAdapter`      |
