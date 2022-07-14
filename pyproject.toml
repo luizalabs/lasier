@@ -28,7 +28,7 @@ pytest-cov = "^3.0.0"
 aiocache = "^0.11.1"
 fakeredis = "^1.7.1"
 bumpversion = "^0.6.0"
-Django = "^4.0.4"
+Django = "^4.0.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
