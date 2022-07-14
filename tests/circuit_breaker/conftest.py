@@ -1,8 +1,9 @@
 import pytest
 from aiocache import Cache
+from django.core.cache.backends.locmem import LocMemCache
 from fakeredis import FakeStrictRedis
 
-from lasier.adapters.caches import AiocacheAdapter, RedisAdapter
+from lasier.adapters.caches import AiocacheAdapter, DjangoAdapter, RedisAdapter
 
 from .fake_rules import (
     ShouldNotIncreaseFailureRule,
@@ -12,9 +13,15 @@ from .fake_rules import (
 )
 
 
-@pytest.fixture
-def cache():
-    fake_cache = RedisAdapter(FakeStrictRedis())
+@pytest.fixture(
+    params=[
+        lambda: RedisAdapter(FakeStrictRedis()),
+        lambda: DjangoAdapter(LocMemCache(name='test', params={})),
+    ],
+    ids=('RedisAdapter', 'DjangoAdapter',)
+)
+def cache(request):
+    fake_cache = request.param()
     yield fake_cache
     fake_cache.flushdb()
 
