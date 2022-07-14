@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.4] - 2022-07-14
+
+### Changes
+* Fix DjangoAdapter behavior
+
 ## [0.2.0] - 2022-03-17
 
 ### Changes

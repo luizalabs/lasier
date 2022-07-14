@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lasier"
-version = "0.2.3"
+version = "0.2.4"
 description = "A sync/async circuit breaker implementation"
 authors = ["LuizaLabs <pypi@luizalabs.com>"]
 license = "MIT"
