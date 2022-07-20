@@ -3,7 +3,12 @@ from aiocache import Cache
 from django.core.cache.backends.locmem import LocMemCache
 from fakeredis import FakeStrictRedis
 
-from lasier.adapters.caches import AiocacheAdapter, DjangoAdapter, RedisAdapter
+from lasier.adapters.caches import (
+    AiocacheAdapter,
+    DjangoAdapter,
+    DjangoAsyncAdapter,
+    RedisAdapter,
+)
 
 from .fake_rules import (
     ShouldNotIncreaseFailureRule,
@@ -26,9 +31,15 @@ def cache(request):
     fake_cache.flushdb()
 
 
-@pytest.fixture
-async def async_cache():
-    fake_cache = AiocacheAdapter(Cache(Cache.MEMORY))
+@pytest.fixture(
+    params=[
+        lambda: AiocacheAdapter(Cache(Cache.MEMORY)),
+        lambda: DjangoAsyncAdapter(LocMemCache(name='test', params={})),
+    ],
+    ids=('AiocacheAdapter', 'DjangoAsyncAdapter',)
+)
+async def async_cache(request):
+    fake_cache = request.param()
     yield fake_cache
     await fake_cache.flushdb()
 
