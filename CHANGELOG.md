@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.0] - 2022-07-20
+
+## Changes
+* Adds async adapter for Django
+
 ## [0.2.4] - 2022-07-14
 
 ### Changes
