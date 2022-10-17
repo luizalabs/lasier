@@ -7,7 +7,7 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-dev = ["asynctest (>=0.11.0)", "codecov", "coverage", "flake8", "ipdb", "marshmallow", "pystache", "pytest", "pytest-asyncio", "pytest-mock", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme", "black"]
+dev = ["asynctest (>=0.11.0)", "black", "codecov", "coverage", "flake8", "ipdb", "marshmallow", "pystache", "pytest", "pytest-asyncio", "pytest-mock", "sphinx", "sphinx-autobuild", "sphinx-rtd-theme"]
 memcached = ["aiomcache (>=0.5.2)"]
 msgpack = ["msgpack (>=0.5.5)"]
 redis = ["aioredis (>=0.3.3)", "aioredis (>=1.0.0)"]
@@ -21,7 +21,7 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
+tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
 name = "atomicwrites"
@@ -40,10 +40,10 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [package.extras]
-dev = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "zope.interface", "furo", "sphinx", "sphinx-notfound-page", "pre-commit", "cloudpickle"]
-docs = ["furo", "sphinx", "zope.interface", "sphinx-notfound-page"]
-tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "zope.interface", "cloudpickle"]
-tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "cloudpickle"]
+dev = ["cloudpickle", "coverage[toml] (>=5.0.2)", "furo", "hypothesis", "mypy", "pre-commit", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins", "six", "sphinx", "sphinx-notfound-page", "zope.interface"]
+docs = ["furo", "sphinx", "sphinx-notfound-page", "zope.interface"]
+tests = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins", "six", "zope.interface"]
+tests-no-zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins", "six"]
 
 [[package]]
 name = "backports.zoneinfo"
@@ -142,7 +142,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 wrapt = ">=1.10,<2"
 
 [package.extras]
-dev = ["tox", "bump2version (<1)", "sphinx (<2)", "importlib-metadata (<3)", "importlib-resources (<4)", "configparser (<5)", "sphinxcontrib-websupport (<2)", "zipp (<2)", "PyTest (<5)", "PyTest-Cov (<2.6)", "pytest", "pytest-cov"]
+dev = ["PyTest", "PyTest (<5)", "PyTest-Cov", "PyTest-Cov (<2.6)", "bump2version (<1)", "configparser (<5)", "importlib-metadata (<3)", "importlib-resources (<4)", "sphinx (<2)", "sphinxcontrib-websupport (<2)", "tox", "zipp (<2)"]
 
 [[package]]
 name = "django"
@@ -164,21 +164,19 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "fakeredis"
-version = "1.7.1"
+version = "1.9.4"
 description = "Fake implementation of redis API for testing purposes."
 category = "dev"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7,<4.0"
 
 [package.dependencies]
-packaging = "*"
-redis = "<4.2.0"
-six = ">=1.12"
-sortedcontainers = "*"
+redis = "<4.4"
+sortedcontainers = ">=2.4.0,<3.0.0"
 
 [package.extras]
-aioredis = ["aioredis"]
-lua = ["lupa"]
+aioredis = ["aioredis (>=2.0.1,<3.0.0)"]
+lua = ["lupa (>=1.13,<2.0)"]
 
 [[package]]
 name = "flake8"
@@ -210,10 +208,10 @@ optional = false
 python-versions = ">=3.6.1,<4.0"
 
 [package.extras]
-pipfile_deprecated_finder = ["pipreqs", "requirementslib"]
-requirements_deprecated_finder = ["pipreqs", "pip-api"]
 colors = ["colorama (>=0.4.3,<0.5.0)"]
+pipfile-deprecated-finder = ["pipreqs", "requirementslib"]
 plugins = ["setuptools"]
+requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "mccabe"
@@ -360,7 +358,7 @@ python-versions = ">=3.7"
 pytest = ">=6.1.0"
 
 [package.extras]
-testing = ["coverage (==6.2)", "hypothesis (>=5.7.1)", "flaky (>=3.5.0)", "mypy (==0.931)", "pytest-trio (>=0.7.0)"]
+testing = ["coverage (==6.2)", "flaky (>=3.5.0)", "hypothesis (>=5.7.1)", "mypy (==0.931)", "pytest-trio (>=0.7.0)"]
 
 [[package]]
 name = "pytest-cov"
@@ -375,7 +373,7 @@ coverage = {version = ">=5.2.1", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
 
 [[package]]
 name = "redis"
@@ -392,14 +390,6 @@ packaging = ">=20.4"
 [package.extras]
 hiredis = ["hiredis (>=1.0.0)"]
 ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
-
-[[package]]
-name = "six"
-version = "1.16.0"
-description = "Python 2 and 3 compatibility utilities"
-category = "dev"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "sortedcontainers"
@@ -452,7 +442,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "2e28605e9ad5d6ae41e29b4172df3ce812920df22411ec291bd731eac24992ee"
+content-hash = "058e05b0f1579dc877ff1769f3a65dbc01ceb0327802f5dea2ba5dcf291e87ca"
 
 [metadata.files]
 aiocache = [
@@ -582,8 +572,8 @@ django = [
     {file = "Django-4.0.4.tar.gz", hash = "sha256:4e8177858524417563cc0430f29ea249946d831eacb0068a1455686587df40b5"},
 ]
 fakeredis = [
-    {file = "fakeredis-1.7.1-py3-none-any.whl", hash = "sha256:be3668e50f6b57d5fc4abfd27f9f655bed07a2c5aecfc8b15d0aad59f997c1ba"},
-    {file = "fakeredis-1.7.1.tar.gz", hash = "sha256:7c2c4ba1b42e0a75337c54b777bf0671056b4569650e3ff927e4b9b385afc8ec"},
+    {file = "fakeredis-1.9.4-py3-none-any.whl", hash = "sha256:61afe14095aad3e7413a0a6fe63041da1b4bc3e41d5228a33b60bd03fabf22d8"},
+    {file = "fakeredis-1.9.4.tar.gz", hash = "sha256:17415645d11994061f5394f3f1c76ba4531f3f8b63f9c55a8fd2120bebcbfae9"},
 ]
 flake8 = [
     {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
@@ -678,10 +668,6 @@ pytest-cov = [
 redis = [
     {file = "redis-4.1.4-py3-none-any.whl", hash = "sha256:04629f8e42be942c4f7d1812f2094568f04c612865ad19ad3ace3005da70631a"},
     {file = "redis-4.1.4.tar.gz", hash = "sha256:1d9a0cdf89fdd93f84261733e24f55a7bbd413a9b219fdaf56e3e728ca9a2306"},
-]
-six = [
-    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
-    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 sortedcontainers = [
     {file = "sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0"},
